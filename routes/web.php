@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TimelineController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [TimelineController::class, 'showTimeLine']);
+
+Route::post('/', [TimelineController::class, 'createPost']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
 Route::middleware([
     'auth:sanctum',
@@ -31,4 +36,3 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'showTimeLine']);
