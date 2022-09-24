@@ -14,25 +14,25 @@ use App\Http\Controllers\TimelineController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
-Route::get('/', [TimelineController::class, 'showTimeLine']);
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/', [TimelineController::class, 'index'])->name('posts.index');
+    
+    Route::post('/posts/create', [TimelineController::class, 'createPost'])->name('posts.create');
+    
+    Route::get('/posts/{post}', [TimelineController::class, 'show'])->name('posts.show');
+    
+    Route::get('/posts/{post}/edit', [TimelineController::class, 'edit'])->name('posts.edit');
+    
+    Route::put('/posts/{post}/update', [TimelineController::class, 'update'])->name('posts.update');
+    
+    Route::delete('/posts/{post}/delete', [TimelineController::class, 'delete'])->name('posts.delete');
+});
 
-Route::post('/', [TimelineController::class, 'createPost']);
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
 
