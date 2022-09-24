@@ -27,15 +27,15 @@ class TimelineController extends Controller
     }
     
     // 投稿作成処理
-    public function createPost(Request $request)
+    public function createPost(Requeat $request)
     {
         Post::create
-        ([
-            'user_id' => Auth::user()->id,
-            'body' => $request->body,
-        ]);
-        
-        return back();
+           ([
+              'user_id' => Auth::user()->id,
+              'body' => $request->body,
+           ]);
+
+           return back();
     }
     
     // 投稿更新
