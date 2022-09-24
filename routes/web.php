@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\TimelineController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,22 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/', [TimelineController::class, 'index'])->name('posts.index');
+    
+    Route::post('/posts/create', [TimelineController::class, 'createPost'])->name('posts.create');
+    
+    Route::get('/posts/{post}', [TimelineController::class, 'show'])->name('posts.show');
+    
+    Route::get('/posts/{post}/edit', [TimelineController::class, 'edit'])->name('posts.edit');
+    
+    Route::put('/posts/{post}/update', [TimelineController::class, 'update'])->name('posts.update');
+    
+    Route::delete('/posts/{post}/delete', [TimelineController::class, 'delete'])->name('posts.delete');
 });
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
+
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
-
-Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'showTimeLine']);
