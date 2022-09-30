@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('body', 200);
+            $table->string('image')->nullable();
             $table->integer('user_id')->unsigned;
             $table->integer('spot_id')->nullable()->unsigned;
             $table->integer('parking_id')->nullable()->unsigned;

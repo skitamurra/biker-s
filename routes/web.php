@@ -16,7 +16,7 @@ use App\Http\Controllers\TimelineController;
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/', [TimelineController::class, 'index'])->name('posts.index');
     
-    Route::post('/posts/create', [TimelineController::class, 'createPost'])->name('posts.create');
+    Route::put('/posts/create', [TimelineController::class, 'createPost'])->name('posts.create');
     
     Route::get('/posts/{post}', [TimelineController::class, 'show'])->name('posts.show');
     
