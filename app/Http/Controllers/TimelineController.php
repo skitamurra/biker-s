@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TimelineController extends Controller
 {
@@ -27,15 +28,19 @@ class TimelineController extends Controller
     }
     
     // 投稿作成処理
-    public function createPost(Requeat $request)
+    public function createPost(Request $request, Post $post)
     {
-        Post::create
-           ([
-              'user_id' => Auth::user()->id,
-              'body' => $request->body,
-           ]);
-
-           return back();
+       $input = $request['post'];
+       $post->fill($input)->save();
+       //画像の保存
+       if ($request->hasFile('image'))
+       {
+           $image = $request->file('image');
+           $uploded = Storage::disk('s3')->putFile('', $image, 'public');
+           $post->image = Storage::disk('s3')->url($uploded);
+           $post->save();
+       }
+       return back();
     }
     
     // 投稿更新

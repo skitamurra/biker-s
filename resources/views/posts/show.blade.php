@@ -3,6 +3,7 @@
      <div class="content">
             <div class="content__post">
                 <p>{{ $post->body }}</p>
+                <img src="{{ $post->image }}" >
             </div>
     </div>
     <div>
