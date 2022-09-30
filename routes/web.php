@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimelineController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +13,7 @@ use App\Http\Controllers\TimelineController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/', [TimelineController::class, 'index'])->name('posts.index');
@@ -30,7 +32,6 @@ Route::group(['middleware' => ['auth']], function(){
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
-
 
 Auth::routes();
 
